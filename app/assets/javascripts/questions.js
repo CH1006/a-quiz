@@ -8,7 +8,7 @@ $(document).on('turbolinks:load', function() {
       disconnected: function() {},
       received: function(data) {
         $('#question-data').load(window.location + " #question-data");
-        $('#list-notification').prepend('' + data.notification);
+        $('#list-notification').prepend("" + data.notification);
         $('#counter-notification').html(data.counter);
       },
     });

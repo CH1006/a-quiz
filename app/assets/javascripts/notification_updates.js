@@ -7,7 +7,7 @@ $(document).on('turbolinks:load', function() {
       connected: function() {},
       disconnected: function() {},
       received: function(data) {
-        $('#list-notification').prepend('' + data.notification);
+        $('#list-notification').prepend("" + data.notification);
         $('#counter-notification').html(data.counter);
       },
     });

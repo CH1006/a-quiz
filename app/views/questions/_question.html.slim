@@ -3,7 +3,7 @@ tr.question
   td = question.category.name
   td = question.level.titleize
   td
-    = question.updated_at > question.created_at ? t(".edit") : t(".create")
+    = question.updated_at <= question.created_at ? t(".create") : t(".edit")
     = time_ago_in_words(question.updated_at)
   td
     button.btn.btn-info[data-toggle="collapse" data-target="#info#{question.id}"]

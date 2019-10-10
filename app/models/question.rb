@@ -63,7 +63,7 @@ class Question < ApplicationRecord
   end
 
   def show_question
-    QuestionBroadcastJob.perform_now(Notification.where(question_id: self, notification_content: 0))
+    QuestionBroadcastJob.perform_now(Notification.where(question_id: self.id, notification_content: 0))
   end
 
   def update_for_question
@@ -74,7 +74,7 @@ class Question < ApplicationRecord
   def check_to_create_version
     return if skip_callback
     raise StandardError if !changed? && !answers.any? { |e| e.new_record? || e.marked_for_destruction? || e.changed? }
-    return if Question.where(id: id, category_id: category_id, level: level, question_content: question_content).blank?
+    return if Question.where(id: id, category_id: category_id, question_content: question_content, level: level).blank?
 
     version = paper_trail.record_update(force: true, in_after_callback: false, is_touch: false)
     version.update_columns created_at: Time.zone.now

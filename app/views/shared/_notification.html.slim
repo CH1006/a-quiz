@@ -3,6 +3,6 @@ li id= "notification-#{notification.id}" style="background-color: #{notification
     = current_user == notification.question.user ? notification.other_user.present? ? "#{notification.other_user} " : t(".you") : "#{notification.question.user.name} "
     = link_to notification.notification_content.gsub("_", " "), question_path(notification.question_id)
     span.timeline-icon
-      i = image_tag("#{notification.question.category.name.downcase}", size: "15x15", class: "image-timeline-icon")
+      i = image_tag("ruby", size: "15x15", class: "image-timeline-icon")
     span.timeline-date = time_ago_in_words(notification.created_at)
 hr
