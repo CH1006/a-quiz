@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_092139) do
+ActiveRecord::Schema.define(version: 2019_10_11_034629) do
 
   create_table "answers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "question_id"
@@ -81,8 +81,8 @@ ActiveRecord::Schema.define(version: 2019_10_08_092139) do
     t.integer "notification_status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "other_user"
     t.index ["question_id"], name: "index_notifications_on_question_id"
-    t.index ["user_id", "question_id"], name: "index_notifications_on_user_id_and_question_id", unique: true
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 2019_10_08_092139) do
     t.datetime "updated_at", null: false
     t.text "question_content"
     t.bigint "user_id"
+    t.boolean "lock", default: false
     t.index ["category_id"], name: "index_questions_on_category_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
@@ -119,6 +120,28 @@ ActiveRecord::Schema.define(version: 2019_10_08_092139) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "version_associations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "version_id"
+    t.string "foreign_key_name", null: false
+    t.integer "foreign_key_id"
+    t.string "foreign_type"
+    t.index ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key"
+    t.index ["version_id"], name: "index_version_associations_on_version_id"
+  end
+
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "item_type", limit: 191, null: false
+    t.bigint "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.json "object"
+    t.json "object_changes"
+    t.datetime "created_at"
+    t.integer "transaction_id"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
   add_foreign_key "notifications", "questions"

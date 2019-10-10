@@ -3,6 +3,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   add_flash_types :success, :danger, :warning, :info
+  before_action :set_paper_trail_whodunnit
+
+  def user_for_paper_trail
+    current_user.name if user_signed_in? && current_user.admin?
+  end
 
   rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound do
     render file: "#{Rails.root}/public/404", layout: false, status: :not_found

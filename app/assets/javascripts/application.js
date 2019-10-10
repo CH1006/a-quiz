@@ -8,5 +8,7 @@
 //= require jquery-ui
 //= require questions
 //= require crawler
+// = require update_questions
+//= require notification_updates
 //= require cable
 //= require turbolinks

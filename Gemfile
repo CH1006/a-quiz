@@ -34,6 +34,8 @@ gem "react-rails"
 gem "activerecord-import"
 gem "redis"
 gem "delayed_job_active_record"
+gem "paper_trail"
+gem "paper_trail-association_tracking"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]

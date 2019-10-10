@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
-class QuestionBroadcastJob < ApplicationJob
-  queue_as :question
+class NotificationUpdateJob < ApplicationJob
+  queue_as :notification_update
 
-  def perform(notifications)
-    notifications.each do |notification|
-      ActionCable.server.broadcast "question_channel_#{notification.user_id}",
-                                   notification: render_notification(notification, notification.user),
-                                   counter: render_counter(Notification.where(user_id: notification.user_id).not_seen.size)
-    end
+  def perform(notification)
+    counter = Notification.where(user_id: notification.user_id).not_seen.size
+    ActionCable.server.broadcast "notification_update_channel_#{notification.user_id}",
+                                 notification: render_notification(notification, notification.user),
+                                 counter: render_counter(counter)
   end
+
+  private
 
   def render_notification(notification, current_user)
     ApplicationController.renderer.render(partial: "shared/notification",

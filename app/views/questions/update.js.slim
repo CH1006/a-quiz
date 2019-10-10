@@ -1,0 +1,9 @@
+- if @question.errors.present?
+  |
+    $("#message_errors").html("#{j(render 'shared/error_messages', object: @question)}");
+    toastr.error("#{flash.now[:danger]}");
+    $(".modal").animate({scrollTop : 0},500);
+- else
+  |
+    $("#question-modal").modal("hide");
+    toastr.success("#{flash.now[:success] = t "messages.success.questions.update" }");

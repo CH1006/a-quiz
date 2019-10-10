@@ -44,20 +44,33 @@ en:
     question:
       edit: "Edited "
       create: "Created "
+    version:
+      rollback: "Rollback"
+    show:
+      update: "Update"
+      history: "History"
+      event: "Event"
+      modifier: "Modifier"
+      modified: "Modified at"
+      change: "Change from"
+      action: "Action"
+
   shared:
     error_messages:
       count_error: "The form contains %{count}."
     notification_center:
       title: "Notifications"
     notification:
-      you: "You"
+      you: "You "
   messages:
     success:
       questions:
         create: "Created!"
+        update: "Updated!"
     failed:
       questions:
         create: "Failed"
+        limit: "You can not rollback this question!"
   model:
     question:
       no_correct: "Question has no correct answer"

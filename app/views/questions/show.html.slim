@@ -1,1 +1,25 @@
-h1 This is show page for question
+.row
+  .col-md-12 style="margin-top: 10px;"
+    = link_to t(".update"), edit_question_path(@question), remote: true, class: "btn btn-primary fa fa-plus fa-xs"
+    .question id="question-content-#{@question.id}"
+      = render "question_content", question: @question
+    h2.text-center style="margin-top: 20px;" = t(".history")
+    #question-history
+      table.table.table-bordered.table-hover style="margin-top: 20px; background-color: #fff"
+        thead.custom-th-table
+          tr
+            th
+              = t(".event")
+            th
+              = t(".modifier")
+            th
+              = t(".modified")
+            th
+              = t(".change")
+            th
+              = t(".action")
+        tbody.custom-td-table
+          = render partial: "questions/version", collection: @versions
+      #paginate-history
+        = paginate @versions, theme: "twitter-bootstrap-4"
+#question-modal.modal.fade

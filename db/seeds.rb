@@ -7,8 +7,8 @@ User.create!( email: "admin2@gmail.com", name: "Admin2", password: "123123", rol
   Category.create! name: name, user_id: User.where(role: "admin").sample.id
 end
 
-200.times do |q|
-  Question.new(category_id: rand(1..5), question_content: "Question name #{q+1}", level: rand(0..1)).save(validate: false)
-  Answer.create!(question_id: q+1, content: "true", status: true)
-  Answer.create!(question_id: q+1, content: "false", status: false)
-end
+# 200.times do |q|
+#   Question.new(category_id: rand(1..5), question_content: "Question name #{q+1}", level: rand(0..1)).save(validate: false)
+#   Answer.create!(question_id: q+1, content: "true", status: true)
+#   Answer.create!(question_id: q+1, content: "false", status: false)
+# end

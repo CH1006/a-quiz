@@ -1,0 +1,6 @@
+- if flash[:danger]
+  |
+    toastr.error("#{flash.now[:danger]}");
+- else
+  |
+    toastr.success("#{flash.now[:success] = t "messages.success.questions.update" }");

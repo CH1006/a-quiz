@@ -3,8 +3,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_admin
-  before_action :load_question, only: :show
-  before_action :load_notification
+  before_action :load_question, only: %i[show edit update]
+  before_action :load_notification, only: :show
 
   def index
     @questions = Question.includes(:answers, :category).order(updated_at: :desc).page(params[:page]).per(6)
@@ -13,10 +13,6 @@ class QuestionsController < ApplicationController
   def new
     @question = Question.new
     2.times { @question.answers.build }
-  end
-
-  def show
-    @notification.update_attributes(notification_status: :seen) if @notification.not_seen?
   end
 
   def create
@@ -30,12 +26,34 @@ class QuestionsController < ApplicationController
     flash.now[:danger] = t "messages.failed.questions.create"
   end
 
+  def show
+    @notification.update_all(notification_status: :seen) if @notification.not_seen.any?
+    @versions = @question.versions.page(params[:page]).per(3)
+  end
+
+  def edit; end
+
+  def update
+    @question.assign_attributes question_params
+    Question.skip_callback = false
+    ActiveRecord::Base.transaction do
+      @question.save!
+      unless @question.user == current_user
+        notification = Notification.create!(user_id: @question.user_id, question_id: @question.id,
+                                            notification_content: 1, other_user: current_user.name)
+        NotificationUpdateJob.perform_now(notification)
+      end
+    end
+  rescue StandardError
+    flash.now[:danger] = t "messages.failed.questions.create"
+  end
+
   private
 
   def question_params
     params.require(:question).permit(:question_content,
                                      :level, :category_id,
-                                     answers_attributes: %i[status content _destroy])
+                                     answers_attributes: %i[id status content _destroy])
   end
 
   def check_admin
@@ -49,6 +67,6 @@ class QuestionsController < ApplicationController
   end
 
   def load_notification
-    @notification = Notification.find_by(user_id: current_user, question_id: @question)
+    @notification = Notification.where(user_id: current_user.id, question_id: @question.id)
   end
 end

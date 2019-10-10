@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   end
 
   devise_for :users
-  resources :questions
+  resources :questions do
+    resources :rollback_questions, only: :index
+  end
   resources :exams
   mount ActionCable.server => '/cable'
   resources :categories, only: [:show]

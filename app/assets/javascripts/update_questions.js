@@ -1,15 +1,15 @@
 $(document).on('turbolinks:load', function() {
   (function() {
-    App.questions = App.cable.subscriptions.create({
-      channel: 'QuestionsChannel'
+    App.question = App.cable.subscriptions.create({
+      channel: 'UpdateQuestionsChannel'
     },
     {
       connected: function() {},
       disconnected: function() {},
       received: function(data) {
+        $('#question-content-'+ data.id).html(data.question);
+        $('#question-history').load(window.location + " #question-history");
         $('#question-data').load(window.location + " #question-data");
-        $('#list-notification').prepend("" + data.notification);
-        $('#counter-notification').html(data.counter);
       },
     });
   }).call(this);

@@ -1,0 +1,20 @@
+= tag.tr do
+  = tag.td version.event.titleize, class: "item-event"
+  = tag.td version.whodunnit, class: "item-user"
+  = tag.td time_ago_in_words(version.created_at), class: "item-time"
+  = tag.td do
+    = tag.ul class: 'list-group' do
+      li.list-group-item
+        strong Category:
+        = " #{version.reify.category.name}"
+      li.list-group-item
+        strong Level:
+        = " #{version.reify.level}"
+      li.list-group-item
+        strong Question:
+        = " #{version.reify.question_content}"
+      li.list-group-item
+        strong Answer:
+        = render partial: "questions/answer", collection: version.reify(has_many: true).answers
+  - if current_user ==  @question.user
+    = tag.td link_to t(".rollback"), question_rollback_questions_path(@question, version: version), remote: true, class: "btn btn-success"

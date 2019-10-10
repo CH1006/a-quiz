@@ -1,0 +1,5 @@
+.card
+  h5.card-header style="word-wrap: break-word;"
+    = question.question_content
+  .card-body.altcontainer
+    = render partial: "questions/answer", collection: question.answers

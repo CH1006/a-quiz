@@ -513,3 +513,39 @@ footer {
 hr {
   clear: left;
 }
+
+#qtext {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.altcontainer {
+  background-color: #fff;
+  font-size: 120%;
+  line-height: 1.7em;
+}
+
+.label-answer {
+  background-color: #f1f1f1;
+  display: block;
+  position: relative;
+  padding: 5px 10px 7px 44px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  word-wrap: break-word;
+}
+
+.custom-th-table tr th{
+  text-align: center !important;
+  word-wrap: break-word;
+}
+
+.custom-td-table tr td {
+  word-wrap: break-word;
+}
+
+.item-event, .item-user, .item-time {
+  text-align: center !important;
+}
